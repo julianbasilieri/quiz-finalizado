@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="quiz.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz</title>
+</head>
+<body onload="cargarPregunta()">
+    <div><button id="ayuda" class="waves-effect waves-light btn" onclick="DarAyuda()"><i class="material-icons right">search</i>Ayuda</button>
+
+    </div>
+    <div class="container">
+        <center><div>
+            <h3 id="numerodepregunta"></h3>
+        </div></center>
+        <div>
+            <h4 id="pregunta"></h4>
+        </div>
+    </div>
+    <div class="container-respuestas">
+        <div class="center">
+            <button id="respuesta1" onclick="validarRespuesta(1)" class="waves-effect waves-light teal light-blue accent-4 btn-large">Respuesta 1</button>
+            <button id="respuesta2" onclick="validarRespuesta(2)" class="waves-effect waves-light teal light-blue accent-4 btn-large">Respuesta 2</button>
+        </div>
+        <div class="center">
+            <button id="respuesta3" onclick="validarRespuesta(3)" class="waves-effect waves-light teal light-blue accent-4 btn-large">Respuesta 3</button>
+            <button id="respuesta4" onclick="validarRespuesta(4)" class="waves-effect waves-light teal light-blue accent-4 btn-large">Respuesta 4</button>
+        </div>
+    </div>
+    <div class="container-buttons">
+        <center><button id="siguiente" class="waves-effect waves-orange indigo btn-large" onclick="cargarPregunta()">siguiente</button></center>
+        <center><button id="finalizar" class="waves-effect waves-orange indigo btn-large hide" onclick="finalizar()">Finalizar</button></center>
+    </div>
+    
+    <div id="modal1" class="modal open" tabindex="0" style="z-index: 1003; display: block; opacity: 1; top: 10%; transform: scaleX(1) scaleY(1);">
+        <div class="modal-content">
+          <div class="titulo">
+              <h4>BIENVENIDOS</h4>
+            </div>
+            <div class="cuerpo">
+                <p>Este quiz consta de 10 preguntas sobre programación, para ser mas preciso: HTML, CSS y JavaScript.<br>
+                    <br>Esta es una aplicación de prueba creada con Visual Studio Code y Materialize.<br>
+                    <br>Actualmente está cargado con preguntas de HTML, CSS y JS, pero se puede cargar fácilmente con cualquier tipo de preguntas.<br>
+                    <br>Cargará dinámicamente un par de preguntas y respuestas, y te dira la cantidad de preguntas acertadas.<br>
+                    <br>Mucha suerte!
+                </div>   
+                <div class="cerrar-modal">
+                    <button class="btn" onclick="cerrarModal()">OK</button>
+                </div>
+            </p>
+        </div>
+    </div>
+        <div id="modalFinal" class="modal open hide" tabindex="0" style="z-index: 1003; display: block; opacity: 1; top: 25%; transform: scaleX(1) scaleY(1);">
+            <div class="modal-content">
+                <div class="titulo">
+                    <h4>FELICIDADES</h4>
+                </div>
+                <div id="respuestasCorrectas" class="cuerpo">
+                    </div>   
+                <div class="reload">
+                        <center><button id="reload" class="indigo btn" onclick="reload()">Recargar la pagina</button></center>
+                </div>
+            </div>
+        </div>
+</body>
+<script src="quiz.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</html>
