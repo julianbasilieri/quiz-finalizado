@@ -106,9 +106,22 @@ function finalizar() {
 function reload() {
   location.reload();
 }
+
+function marcarRespuestaIncorrectaRandom(){
+  let respuestaIncorrectaAyuda;
+  let encontreRespuesta;
+  do{
+    respuestaIncorrectaAyuda = Math.floor(Math.random() * (3 + 1)); //Te da un número random entre 0 y 3 (las 4 respuestas posibles)
+    encontreRespuesta = !preguntas[preguntaActual - 1].respuestas[respuestaIncorrectaAyuda].esCorrecta; // Me fijo si la respuesta no es la correcta..
+    if(encontreRespuesta){ //Si la respuesta no es correcta marco la ayuda
+      document.getElementById("respuesta" + (respuestaIncorrectaAyuda + 1)).className = "red btn-large"
+    }
+  }while(!encontreRespuesta) //Sigo intentando hasta encontrar una respuesta de ayuda
+}
+
 function darAyuda() {
   utilizoAyuda = true;
-  document.getElementById("respuesta4").className = "red btn-large"
+  marcarRespuestaIncorrectaRandom();
   document.getElementById("ayuda").className = "btn disabled"
 }
 
