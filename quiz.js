@@ -1,6 +1,8 @@
 let preguntaActual = 0;
 let cantidadRespuestasCorrectas = 0;
 let preguntaActualContestada = false;
+let utilizoAyuda = false;
+
 const preguntas = [
   {
     pregunta: "¿Cúanto es 10 + 10?",
@@ -68,69 +70,83 @@ const preguntas = [
 ];
 
 function cargarPregunta() {
-    resetear();
-    preguntaActual++
-    document.getElementById("numerodepregunta").innerText = "Pregunta " + preguntaActual;
-    document.getElementById("pregunta").innerText = preguntas [preguntaActual - 1].pregunta;
-    document.getElementById("respuesta1").innerText = preguntas[preguntaActual - 1].respuestas[0].textoRespuesta;
-    document.getElementById("respuesta2").innerText = preguntas[preguntaActual - 1].respuestas[1].textoRespuesta;
-    document.getElementById("respuesta3").innerText = preguntas[preguntaActual - 1].respuestas[2].textoRespuesta;
-    document.getElementById("respuesta4").innerText = preguntas[preguntaActual - 1].respuestas[3].textoRespuesta;
+  resetear();
+  preguntaActual++
+  document.getElementById("numerodepregunta").innerText = "Pregunta " + preguntaActual;
+  document.getElementById("pregunta").innerText = preguntas[preguntaActual - 1].pregunta;
+  document.getElementById("respuesta1").innerText = preguntas[preguntaActual - 1].respuestas[0].textoRespuesta;
+  document.getElementById("respuesta2").innerText = preguntas[preguntaActual - 1].respuestas[1].textoRespuesta;
+  document.getElementById("respuesta3").innerText = preguntas[preguntaActual - 1].respuestas[2].textoRespuesta;
+  document.getElementById("respuesta4").innerText = preguntas[preguntaActual - 1].respuestas[3].textoRespuesta;
+}
+
+function resetear() {
+  document.getElementById("respuesta1").className = "waves-effect waves-light light-blue accent-4 btn-large"
+  document.getElementById("respuesta2").className = "waves-effect waves-light light-blue accent-4 btn-large";
+  document.getElementById("respuesta3").className = "waves-effect waves-light light-blue accent-4 btn-large";
+  document.getElementById("respuesta4").className = "waves-effect waves-light light-blue accent-4 btn-large";
+  document.getElementById("siguiente").className = "hide";
+  preguntaActualContestada = false;
+  if (!utilizoAyuda) {
+    document.getElementById("ayuda").className = "waves-effect waves-light btn";
   }
-  
-  function resetear() {
-    document.getElementById("respuesta1").className = "waves-effect waves-light light-blue accent-4 btn-large"
-    document.getElementById("respuesta2").className = "waves-effect waves-light light-blue accent-4 btn-large";
-    document.getElementById("respuesta3").className = "waves-effect waves-light light-blue accent-4 btn-large";
-    document.getElementById("respuesta4").className = "waves-effect waves-light light-blue accent-4 btn-large";
-    document.getElementById("siguiente").className = "hide";
-    preguntaActualContestada = false;
-    document.getElementById("ayuda").className = "waves-effect waves-light btn"
-  }
-  function mostrarBotonSiguiente() {
-    document.getElementById("siguiente").className = "waves-effect waves-orange indigo btn-large show";
-  }
-  function mostrarBotonFinalizar() {
-    document.getElementById("finalizar").className = "waves-effect waves-orange indigo btn-large show";
-  }
-  function mostrarBotonReload() {
-    document.getElementById("reload").className = "indigo btn show";
-  }
-  function finalizar() {
-    document.getElementById("modalFinal").className = "modal"
-    document.getElementById("respuestasCorrectas").innerText = "Respondiste correctamente " + cantidadRespuestasCorrectas + " de " + preguntas.length + " preguntas"
-  }
-  function reload() {
-    location.reload();
-  }
-  function DarAyuda() {
-    document.getElementById("respuesta4").className = "red btn-large"
+}
+function mostrarBotonSiguiente() {
+  document.getElementById("siguiente").className = "waves-effect waves-orange indigo btn-large show";
+}
+function mostrarBotonesFinalizar() {
+  document.getElementById("finalizar").className = "waves-effect waves-orange indigo btn-large show";
+  document.getElementById("reload").className = "indigo btn show";
+}
+
+function finalizar() {
+  document.getElementById("modalFinal").className = "modal"
+  document.getElementById("respuestasCorrectas").innerText = "Respondiste correctamente " + cantidadRespuestasCorrectas + " de " + preguntas.length + " preguntas"
+}
+function reload() {
+  location.reload();
+}
+
+function marcarRespuestaIncorrectaRandom(){
+  let respuestaIncorrectaAyuda;
+  let encontreRespuesta;
+  do{
+    respuestaIncorrectaAyuda = Math.floor(Math.random() * (3 + 1)); //Te da un número random entre 0 y 3 (las 4 respuestas posibles)
+    encontreRespuesta = !preguntas[preguntaActual - 1].respuestas[respuestaIncorrectaAyuda].esCorrecta; // Me fijo si la respuesta no es la correcta..
+    if(encontreRespuesta){ //Si la respuesta no es correcta marco la ayuda
+      document.getElementById("respuesta" + (respuestaIncorrectaAyuda + 1)).className = "red btn-large"
+    }
+  }while(!encontreRespuesta) //Sigo intentando hasta encontrar una respuesta de ayuda
+}
+
+function darAyuda() {
+  utilizoAyuda = true;
+  marcarRespuestaIncorrectaRandom();
+  document.getElementById("ayuda").className = "btn disabled"
+}
+
+function cerrarModal() {
+  document.getElementById("modal1").className = "hide"
+}
+
+function validarRespuesta(respuesta) {
+  if (!preguntaActualContestada) {
+    preguntaActualContestada = true;
+    const esCorrecta = preguntas[preguntaActual - 1].respuestas[respuesta - 1].esCorrecta;
+
+    if (esCorrecta) {
+      cantidadRespuestasCorrectas++;
+      document.getElementById("respuesta" + respuesta).className = "green btn-large";
+    } else {
+      document.getElementById("respuesta" + respuesta).className = "red btn-large";
+    }
+
     document.getElementById("ayuda").className = "btn disabled"
-  }
 
-  function cerrarModal() {
-    document.getElementById("modal1").className = "hide"
-  }
-
-  function validarRespuesta(respuesta) {
-    if (!preguntaActualContestada) {
-      preguntaActualContestada = true;
-      const esCorrecta = preguntas[preguntaActual - 1].respuestas[respuesta - 1].esCorrecta;
-  
-      if (esCorrecta) {
-        cantidadRespuestasCorrectas++;
-        document.getElementById("respuesta" + respuesta).className = "green btn-large";
-      } else {
-        document.getElementById("respuesta" + respuesta).className = "red btn-large";
-      }
-
-      if (preguntas.length > preguntaActual) {
-        mostrarBotonSiguiente();
-        document.getElementById("ayuda").className = "btn disabled"
-      } else {
-        mostrarBotonFinalizar();
-        mostrarBotonReload();
-        document.getElementById("ayuda").className = "btn disabled"
-      }
+    if (preguntas.length > preguntaActual) {
+      mostrarBotonSiguiente();
+    } else {
+      mostrarBotonesFinalizar();
     }
   }
+}
