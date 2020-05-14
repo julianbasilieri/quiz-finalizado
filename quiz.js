@@ -106,7 +106,6 @@ function cargarPregunta() {
   function DarAyuda() {
     document.getElementById("respuesta4").className = "red btn-large"
     document.getElementById("ayuda").className = "btn disabled"
-
   }
 
   function cerrarModal() {
