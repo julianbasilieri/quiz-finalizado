@@ -2,25 +2,26 @@ let preguntaActual = 0;
 let cantidadRespuestasCorrectas = 0;
 let preguntaActualContestada = false;
 let utilizoAyuda = false;
-
+let utilizoDobleOportunidad = false;
+let utilizoSkip = false;//Agregue un let para cada ayuda que voy a dar
 const preguntas = [
   {
-    pregunta: "¿Cúanto es 10 + 10?",
+    pregunta: "¿Qué significa CSS?",
     respuestas: [
       {
-        textoRespuesta: "20",
+        textoRespuesta: "Hojas de estilo de computadora",
+        esCorrecta: false,
+      },
+      {
+        textoRespuesta: "Hojas de estilo en cascada",
         esCorrecta: true,
       },
       {
-        textoRespuesta: "35",
+        textoRespuesta: "Hojas de estilo creativo",
         esCorrecta: false,
       },
       {
-        textoRespuesta: "10",
-        esCorrecta: false,
-      },
-      {
-        textoRespuesta: "5",
+        textoRespuesta: "Hojas de estilo colorido",
         esCorrecta: false,
       }
     ],
@@ -67,6 +68,153 @@ const preguntas = [
       }
     ],
   },
+  {
+    pregunta: "¿Qué etiqueta HTML se usa para definir una hoja de JS interna?",
+    respuestas: [
+      {
+        textoRespuesta: "<style>",
+        esCorrecta: false,
+      },
+      {
+        textoRespuesta: "<script>",
+        esCorrecta: true,
+      },
+      {
+        textoRespuesta: "<JS>",
+        esCorrecta: false,
+      },
+      {
+        textoRespuesta: "<JavaScript>",
+        esCorrecta: false,
+      }
+    ],
+  },
+  {
+    pregunta: "¿Qué atributo HTML se usa para definir estilos en línea?",
+    respuestas: [
+      {
+        textoRespuesta: "style",
+        esCorrecta: true,
+      },
+      {
+        textoRespuesta: "styles",
+        esCorrecta: false,
+      },
+      {
+        textoRespuesta: "class",
+        esCorrecta: false,
+      },
+      {
+        textoRespuesta: "font",
+        esCorrecta: false,
+      }
+    ],
+  },
+  {
+    pregunta: "¿Cuál es la sintaxis correcta de CSS?",
+    respuestas: [
+      {
+        textoRespuesta: "body: {color= black}",
+        esCorrecta: false,
+      },
+      {
+        textoRespuesta: "{body: color= black}",
+        esCorrecta: false,
+      },
+      {
+        textoRespuesta: "body= {color= black}",
+        esCorrecta: false,
+      },
+      {
+        textoRespuesta: "body {color= black}",
+        esCorrecta: true,
+      }
+    ],
+  },
+  {
+    pregunta: "¿Con que simbolo se llama a un id en CSS?",
+    respuestas: [
+      {
+        textoRespuesta: "Con un punto .",
+        esCorrecta: false,
+      },
+      {
+        textoRespuesta: "Con un guión -",
+        esCorrecta: false,
+      },
+      {
+        textoRespuesta: "Con un asterisco #",
+        esCorrecta: true,
+      },
+      {
+        textoRespuesta: "Con un mas +",
+        esCorrecta: false,
+      }
+    ],
+  },
+  {
+    pregunta: "¿Como se hace un comentario?",
+    respuestas: [
+      {
+        textoRespuesta: "/*comentario*/",
+        esCorrecta: true,
+      },
+      {
+        textoRespuesta: "'comentario'",
+        esCorrecta: false,
+      },
+      {
+        textoRespuesta: "//comentario//",
+        esCorrecta: false,
+      },
+      {
+        textoRespuesta: "//comentario",
+        esCorrecta: false,
+      }
+    ],
+  },
+  {
+    pregunta: "¿Que propiedad cambia el color de la letra?",
+    respuestas: [
+      {
+        textoRespuesta: "backgroun-color",
+        esCorrecta: false,
+      },
+      {
+        textoRespuesta: "text-color",
+        esCorrecta: false,
+      },
+      {
+        textoRespuesta: "font-color",
+        esCorrecta: false,
+      },
+      {
+        textoRespuesta: "color",
+        esCorrecta: true,
+      }
+    ],
+  },
+  {
+    pregunta: "¿Como se llama a una funcion?",
+    respuestas: [
+      {
+        textoRespuesta: "myfunction()",
+        esCorrecta: true,
+      },
+      {
+        textoRespuesta: "myfunction//",
+        esCorrecta: false,
+      },
+      {
+        textoRespuesta: "(myfunction)",
+        esCorrecta: false,
+      },
+      {
+        textoRespuesta: "myfunction",
+        esCorrecta: false,
+      }
+    ],
+  },
 ];
 
 function cargarPregunta() {
@@ -90,14 +238,19 @@ function resetear() {
   if (!utilizoAyuda) {
     document.getElementById("ayuda").className = "waves-effect waves-light btn";
   }
+  if (!utilizoDobleOportunidad) {
+    document.getElementById("doble-oportunidad").className = "waves-effect waves-light btn"
+  }
+  if (!utilizoSkip) {
+    document.getElementById("skip").className = "waves-effect waves-light btn";//Un let para cada ayuda
+  }
 }
 function mostrarBotonSiguiente() {
   document.getElementById("siguiente").className = "waves-effect waves-orange indigo btn-large show";
 }
 function mostrarBotonesFinalizar() {
   document.getElementById("finalizar").className = "waves-effect waves-orange indigo btn-large show";
-  document.getElementById("reload").className = "indigo btn show";
-}
+}//Borre ese boton porque no esta mas ahi
 
 function finalizar() {
   document.getElementById("modalFinal").className = "modal"
@@ -124,6 +277,26 @@ function darAyuda() {
   marcarRespuestaIncorrectaRandom();
   document.getElementById("ayuda").className = "btn disabled"
 }
+function dobleOportunidad(){//aca tengo problemas porque el boton no sirva para nada en estos momentos...
+  utilizoDobleOportunidad = true
+  preguntaActualContestada = false
+  document.getElementById("doble-oportunidad").className = "btn disabled"
+}
+function skip() {//saltear la pregunta
+  document.getElementById("ayuda").className = "btn disabled"
+  document.getElementById("doble-oportunidad").className = "btn disabled"
+  document.getElementById("skip").className = "btn disabled"
+  utilizoSkip = true
+    if (preguntaActual == 10){//si estoy en la utima pregunta le puse esto para que no siga sumando numeros y se rompa
+    mostrarBotonesFinalizar()
+    document.getElementById("resuesta1").onclick = validarRespuesta()//para que no ejecute ninguna funcion despues de apretar el boton skip
+    document.getElementById("resuesta2").onclick = validarRespuesta()
+    document.getElementById("resuesta3").onclick = validarRespuesta()
+    document.getElementById("resuesta4").onclick = validarRespuesta()
+    document.getElementById("skip").className = "btn disabled"
+  } else {
+  cargarPregunta()}
+}
 
 function cerrarModal() {
   document.getElementById("modal1").className = "hide"
@@ -140,9 +313,9 @@ function validarRespuesta(respuesta) {
     } else {
       document.getElementById("respuesta" + respuesta).className = "red btn-large";
     }
-
     document.getElementById("ayuda").className = "btn disabled"
-
+    document.getElementById("doble-oportunidad").className = "btn disabled"
+    document.getElementById("skip").className = "btn disabled"
     if (preguntas.length > preguntaActual) {
       mostrarBotonSiguiente();
     } else {

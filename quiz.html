@@ -9,7 +9,9 @@
     <title>Quiz</title>
 </head>
 <body onload="cargarPregunta()">
-    <div><button id="ayuda" class="waves-effect waves-light btn" onclick="darAyuda()"><i class="material-icons right">search</i>Ayuda</button>
+    <div><button id="ayuda" class="waves-effect waves-light btn" onclick="darAyuda()">Bomba <i class="fas fa-bomb"></i></button>
+    <button id="doble-oportunidad" class="waves-effect waves-light btn" onclick="dobleOportunidad()">Doble Oportunidad <i class="fas fa-redo-alt"></i></button>
+    <button id="skip" class="waves-effect waves-light btn" onclick="skip()">Skip <i class="fas fa-forward"></i></button>
 
     </div>
     <div class="container">
@@ -68,4 +70,5 @@
 </body>
 <script src="quiz.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script src="https://kit.fontawesome.com/bb8961fa19.js" crossorigin="anonymous"></script>
 </html>
