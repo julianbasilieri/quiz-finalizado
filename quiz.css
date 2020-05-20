@@ -5,6 +5,16 @@ body{
 #ayuda{
     margin: 10px;
 }
+#doble-oportunidad {
+    margin: 10px;
+}
+#skip {
+    margin: 10px;
+}
+
+#dos-opciones {
+    margin: 10px;
+}
 
 .container {
     background-color: #FF5757;
