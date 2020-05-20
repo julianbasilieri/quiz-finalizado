@@ -9,10 +9,9 @@
     <title>Quiz</title>
 </head>
 <body onload="cargarPregunta()">
-    <div><button id="ayuda" class="waves-effect waves-light btn" onclick="darAyuda()">Bomba <i class="fas fa-bomb"></i></button>
-    <button id="doble-oportunidad" class="waves-effect waves-light btn" onclick="dobleOportunidad()">Doble Oportunidad <i class="fas fa-redo-alt"></i></button>
-    <button id="skip" class="waves-effect waves-light btn" onclick="skip()">Skip <i class="fas fa-forward"></i></button>
-
+    <div><button id="ayuda" class="waves-effect waves-light btn" onclick="tirarBomba()">Bomba <i class="fas fa-bomb"> +1</i></button>
+    <button id="doble-oportunidad" class="waves-effect waves-light btn" onclick="dobleOportunidad()">Doble Oportunidad <i class="fas fa-redo-alt"> +1</i></button>
+    <button id="skip" class="waves-effect waves-light btn" onclick="skip()">Skip <i class="fas fa-forward"> +1</i></button>
     </div>
     <div class="container">
         <center><div>
@@ -63,7 +62,7 @@
                 <div id="respuestasCorrectas" class="cuerpo">
                     </div>   
                 <div class="reload">
-                        <center><button id="reload" class="indigo btn" onclick="reload()">Recargar la pagina</button></center>
+                        <center><button id="reload" class="indigo btn" onclick="reload()">Volver a jugar</button></center>
                 </div>
             </div>
         </div>

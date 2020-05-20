@@ -1,9 +1,9 @@
 let preguntaActual = 0;
 let cantidadRespuestasCorrectas = 0;
 let preguntaActualContestada = false;
-let utilizoAyuda = false;
+let utilizoBomba = false;
 let utilizoDobleOportunidad = false;
-let utilizoSkip = false;//Agregue un let para cada ayuda que voy a dar
+let utilizoSkip = false;
 const preguntas = [
   {
     pregunta: "¿Qué significa CSS?",
@@ -235,14 +235,14 @@ function resetear() {
   document.getElementById("respuesta4").className = "waves-effect waves-light light-blue accent-4 btn-large";
   document.getElementById("siguiente").className = "hide";
   preguntaActualContestada = false;
-  if (!utilizoAyuda) {
+  if (!utilizoBomba) {
     document.getElementById("ayuda").className = "waves-effect waves-light btn";
   }
   if (!utilizoDobleOportunidad) {
-    document.getElementById("doble-oportunidad").className = "waves-effect waves-light btn"
+    document.getElementById("doble-oportunidad").className = "btn disabled"
   }
   if (!utilizoSkip) {
-    document.getElementById("skip").className = "waves-effect waves-light btn";//Un let para cada ayuda
+    document.getElementById("skip").className = "waves-effect waves-light btn";
   }
 }
 function mostrarBotonSiguiente() {
@@ -250,7 +250,7 @@ function mostrarBotonSiguiente() {
 }
 function mostrarBotonesFinalizar() {
   document.getElementById("finalizar").className = "waves-effect waves-orange indigo btn-large show";
-}//Borre ese boton porque no esta mas ahi
+}
 
 function finalizar() {
   document.getElementById("modalFinal").className = "modal"
@@ -264,32 +264,36 @@ function marcarRespuestaIncorrectaRandom(){
   let respuestaIncorrectaAyuda;
   let encontreRespuesta;
   do{
-    respuestaIncorrectaAyuda = Math.floor(Math.random() * (3 + 1)); //Te da un número random entre 0 y 3 (las 4 respuestas posibles)
-    encontreRespuesta = !preguntas[preguntaActual - 1].respuestas[respuestaIncorrectaAyuda].esCorrecta; // Me fijo si la respuesta no es la correcta..
-    if(encontreRespuesta){ //Si la respuesta no es correcta marco la ayuda
+    respuestaIncorrectaAyuda = Math.floor(Math.random() * (3 + 1)); 
+    encontreRespuesta = !preguntas[preguntaActual - 1].respuestas[respuestaIncorrectaAyuda].esCorrecta; 
+    if(encontreRespuesta){
       document.getElementById("respuesta" + (respuestaIncorrectaAyuda + 1)).className = "red btn-large"
     }
-  }while(!encontreRespuesta) //Sigo intentando hasta encontrar una respuesta de ayuda
+  }while(!encontreRespuesta) 
 }
 
-function darAyuda() {
-  utilizoAyuda = true;
+function tirarBomba() {
+  utilizoBomba = true;
   marcarRespuestaIncorrectaRandom();
   document.getElementById("ayuda").className = "btn disabled"
+  document.getElementById("ayuda").innerHTML = "Bomba <i class='fas fa-bomb'> +0</i>"
 }
-function dobleOportunidad(){//aca tengo problemas porque el boton no sirva para nada en estos momentos...
+function dobleOportunidad(){
   utilizoDobleOportunidad = true
   preguntaActualContestada = false
   document.getElementById("doble-oportunidad").className = "btn disabled"
+  document.getElementById("siguiente").className = "btn large disabled";
+  document.getElementById("doble-oportunidad").innerHTML = "Doble Oportunidad <i class='fas fa-redo-alt'> +0</i>"
 }
-function skip() {//saltear la pregunta
+function skip() {
+  utilizoSkip = true
   document.getElementById("ayuda").className = "btn disabled"
   document.getElementById("doble-oportunidad").className = "btn disabled"
   document.getElementById("skip").className = "btn disabled"
-  utilizoSkip = true
-    if (preguntaActual == 10){//si estoy en la utima pregunta le puse esto para que no siga sumando numeros y se rompa
+  document.getElementById("skip").innerHTML = "Skip <i class='fas fa-forward'> +0</i>"
+    if (preguntaActual == 10){
     mostrarBotonesFinalizar()
-    document.getElementById("resuesta1").onclick = validarRespuesta()//para que no ejecute ninguna funcion despues de apretar el boton skip
+    document.getElementById("resuesta1").onclick = validarRespuesta()
     document.getElementById("resuesta2").onclick = validarRespuesta()
     document.getElementById("resuesta3").onclick = validarRespuesta()
     document.getElementById("resuesta4").onclick = validarRespuesta()
@@ -310,12 +314,21 @@ function validarRespuesta(respuesta) {
     if (esCorrecta) {
       cantidadRespuestasCorrectas++;
       document.getElementById("respuesta" + respuesta).className = "green btn-large";
+      document.getElementById("doble-oportunidad").className = "btn disabled"
     } else {
       document.getElementById("respuesta" + respuesta).className = "red btn-large";
     }
     document.getElementById("ayuda").className = "btn disabled"
-    document.getElementById("doble-oportunidad").className = "btn disabled"
     document.getElementById("skip").className = "btn disabled"
+    if (esCorrecta){
+    document.getElementById("doble-oportunidad").className = "btn disabled"
+    } else {
+    if (utilizoDobleOportunidad) {
+    document.getElementById("doble-oportunidad").className = "btn disabled"
+    }
+    else {
+    document.getElementById("doble-oportunidad").className = "waves-effect waves-light btn"
+    }}
     if (preguntas.length > preguntaActual) {
       mostrarBotonSiguiente();
     } else {
