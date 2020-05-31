@@ -36,6 +36,7 @@ function cargarPregunta() {
 })*/
 }
 
+
 function resetear() {
   document.getElementById("respuesta1").className = "waves-effect waves-light light-blue accent-4 btn-large"
   document.getElementById("respuesta2").className = "waves-effect waves-light light-blue accent-4 btn-large";
